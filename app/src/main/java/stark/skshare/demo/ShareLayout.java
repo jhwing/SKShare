@@ -36,14 +36,17 @@ public class ShareLayout extends RelativeLayout {
 
     public ShareLayout(Context context) {
         super(context);
+        init();
     }
 
     public ShareLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public ShareLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     private void init() {

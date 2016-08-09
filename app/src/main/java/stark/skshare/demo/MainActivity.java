@@ -40,7 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .build(), this, new DefaultShareCallback());
                 break;
             case Platform.PYP:
-                STShare.create(WeChatShare.class).init(this).shareText(new ShareContent.Builder().setUrl("").setTitle("").setContent("").build(), false);
+                WeChatShare weChatShare = STShare.create(WeChatShare.class);
+                if (weChatShare != null) {
+                    weChatShare.init(this).shareText(new ShareContent.Builder().setUrl("").setTitle("").setContent("").build(), false);
+                }
                 break;
             case Platform.WECHAT:
                 STShare.create(WeChatShare.class).init(this).shareText(new ShareContent.Builder().setUrl("").setTitle("").setContent("").build(), true);

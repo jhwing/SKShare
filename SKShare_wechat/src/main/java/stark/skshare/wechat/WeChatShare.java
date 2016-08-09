@@ -11,7 +11,8 @@ import com.tencent.mm.sdk.openapi.WXMediaMessage;
 import com.tencent.mm.sdk.openapi.WXTextObject;
 import com.tencent.mm.sdk.openapi.WXWebpageObject;
 
-import stark.skshare.STShare;
+import stark.skshare.Platform;
+import stark.skshare.SKShare;
 import stark.skshare.ShareContent;
 
 
@@ -19,7 +20,7 @@ import stark.skshare.ShareContent;
  * Created by jihongwen on 16/8/4.
  */
 
-public class WeChatShare implements STShare.IShare<WeChatShare> {
+public class WeChatShare implements SKShare.IShare<WeChatShare> {
 
     public static final String APP_ID = "wxc822b4a6f144b0dd";
 
@@ -35,6 +36,11 @@ public class WeChatShare implements STShare.IShare<WeChatShare> {
         wxApi = WXAPIFactory.createWXAPI(context, APP_ID);
         wxApi.registerApp(APP_ID);
         return this;
+    }
+
+    @Override
+    public int requestCode() {
+        return Platform.WECHAT;
     }
 
     public void share(ShareContent content, Activity activity) {

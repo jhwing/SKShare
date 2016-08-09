@@ -6,9 +6,10 @@ import android.view.View;
 
 import stark.skshare.DefaultShareCallback;
 import stark.skshare.Platform;
-import stark.skshare.STShare;
+import stark.skshare.SKShare;
 import stark.skshare.ShareContent;
-import stark.skshare.tencent.TencentShare;
+import stark.skshare.tencent.SKQQShare;
+import stark.skshare.tencent.SKQzoneShare;
 import stark.skshare.wechat.WeChatShare;
 import stark.skshare.weibo.WeiboShare;
 
@@ -31,28 +32,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onShareItemClick(int platform) {
         switch (platform) {
             case Platform.QQ:
-                STShare.create(TencentShare.class).init(this).share(new ShareContent.Builder()
-                        .setUrl("url")
-                        .setTitle("title")
-                        .setContent("content")
-                        .setImageUrl("")
-                        .setAppName("app")
-                        .build(), this, new DefaultShareCallback());
-                break;
-            case Platform.PYP:
-                WeChatShare weChatShare = STShare.create(WeChatShare.class);
-                if (weChatShare != null) {
-                    weChatShare.init(this).shareText(new ShareContent.Builder().setUrl("").setTitle("").setContent("").build(), false);
+                SKQQShare skqqShare = SKShare.create(SKQQShare.class, this);
+                if (skqqShare != null) {
+                    skqqShare.shareToQQ(new ShareContent.Builder()
+                            .setUrl("url")
+                            .setTitle("title")
+                            .setContent("content")
+                            .setImageUrl("imageUrl")
+                            .setAppName("app")
+                            .build(), this, new DefaultShareCallback());
                 }
                 break;
+            case Platform.PYP: {
+                WeChatShare weChatShare = SKShare.create(WeChatShare.class, this);
+                if (weChatShare != null) {
+                    weChatShare.shareText(new ShareContent.Builder()
+                            .setUrl("")
+                            .setTitle("")
+                            .setContent("")
+                            .build(), false);
+                }
+                break;
+            }
             case Platform.WECHAT:
-                STShare.create(WeChatShare.class).init(this).shareText(new ShareContent.Builder().setUrl("").setTitle("").setContent("").build(), true);
+                WeChatShare weChatShare = SKShare.create(WeChatShare.class, this);
+                if (weChatShare != null) {
+                    weChatShare.shareText(new ShareContent.Builder()
+                            .setUrl("")
+                            .setTitle("")
+                            .setContent("")
+                            .build(), true);
+                }
                 break;
             case Platform.QZONE:
-                STShare.create(TencentShare.class).init(this).share(new ShareContent.Builder().setUrl("").setTitle("").setContent("").build(), this, new DefaultShareCallback());
+                SKQzoneShare skQzoneShare = SKShare.create(SKQzoneShare.class, this);
+                if (skQzoneShare != null) {
+                    skQzoneShare.shareToQzone(new ShareContent.Builder()
+                            .setUrl("")
+                            .setTitle("")
+                            .setContent("")
+                            .build(), this, new DefaultShareCallback());
+                }
                 break;
             case Platform.WEIBO:
-                STShare.create(WeiboShare.class).init(this).share(new ShareContent.Builder().setUrl("").setTitle("").setContent("").build(), this, new DefaultShareCallback());
+                WeiboShare weiboShare = SKShare.create(WeiboShare.class, this);
+                if (weiboShare != null) {
+                    weiboShare.share(new ShareContent.Builder()
+                            .setUrl("")
+                            .setTitle("")
+                            .setContent("")
+                            .build(), this, new DefaultShareCallback());
+                }
                 break;
         }
     }

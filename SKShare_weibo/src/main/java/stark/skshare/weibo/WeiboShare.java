@@ -13,7 +13,8 @@ import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 
-import stark.skshare.STShare;
+import stark.skshare.Platform;
+import stark.skshare.SKShare;
 import stark.skshare.ShareContent;
 
 
@@ -21,7 +22,7 @@ import stark.skshare.ShareContent;
  * Created by jihongwen on 16/8/4.
  */
 
-public class WeiboShare implements STShare.IShare<WeiboShare> {
+public class WeiboShare implements SKShare.IShare<WeiboShare> {
 
     private static final String TAG = WeiboShare.class.getSimpleName();
 
@@ -43,7 +44,12 @@ public class WeiboShare implements STShare.IShare<WeiboShare> {
         return this;
     }
 
-    public void share(ShareContent content, Activity activity, STShare.ShareCallback callback) {
+    @Override
+    public int requestCode() {
+        return Platform.WEIBO;
+    }
+
+    public void share(ShareContent content, Activity activity, SKShare.ShareCallback callback) {
         WeiboMessage weiboMessage = new WeiboMessage();
         weiboMessage.mediaObject = getTextObj();
         SendMessageToWeiboRequest request = new SendMessageToWeiboRequest();

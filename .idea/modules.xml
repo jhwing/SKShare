@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SKShare.iml" filepath="$PROJECT_DIR$/SKShare.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SKShareLib/SKShareLib.iml" filepath="$PROJECT_DIR$/SKShareLib/SKShareLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SKShare_tencent/SKShare_tencent.iml" filepath="$PROJECT_DIR$/SKShare_tencent/SKShare_tencent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SKShare_wechat/SKShare_wechat.iml" filepath="$PROJECT_DIR$/SKShare_wechat/SKShare_wechat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SKShare_weibo/SKShare_weibo.iml" filepath="$PROJECT_DIR$/SKShare_weibo/SKShare_weibo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>

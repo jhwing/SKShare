@@ -6,7 +6,7 @@ package stark.skshare;
 public class SKShareContent extends SKShareModel {
 
 
-    protected SKShareContent(Builder builder) {
+    public SKShareContent(Builder builder) {
         super(builder);
     }
 

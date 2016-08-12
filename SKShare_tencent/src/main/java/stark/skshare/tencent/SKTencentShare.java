@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import stark.skshare.Platform;
 import stark.skshare.SKShare;
-import stark.skshare.ShareContent;
+import stark.skshare.SKShareContent;
 
 
 /**
@@ -47,7 +47,7 @@ public class SKTencentShare implements SKShare.IShare<SKTencentShare> {
         return Platform.QQ;
     }
 
-    public void shareToQQ(ShareContent content, Activity activity, final SKShare.ShareCallback callback) {
+    public void shareToQQ(SKShareContent content, Activity activity, final SKShare.ShareCallback callback) {
         mActivity = activity;
         this.callback = callback;
         Bundle bundle = new Bundle();
@@ -59,7 +59,7 @@ public class SKTencentShare implements SKShare.IShare<SKTencentShare> {
         mTencent.shareToQQ(activity, bundle, iUiListener);
     }
 
-    public void shareToQzone(ShareContent content, Activity activity, final SKShare.ShareCallback callback) {
+    public void shareToQzone(SKShareContent content, Activity activity, final SKShare.ShareCallback callback) {
         mActivity = activity;
         this.callback = callback;
         Bundle bundle = new Bundle();

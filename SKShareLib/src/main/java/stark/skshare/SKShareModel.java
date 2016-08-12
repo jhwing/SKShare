@@ -1,9 +1,10 @@
 package stark.skshare;
 
 /**
- * Created by jihongwen on 16/6/24.
+ * Created by jihongwen on 16/8/9.
  */
-public class ShareContent {
+
+public abstract class SKShareModel {
 
     public String title;
     public String content;
@@ -11,55 +12,51 @@ public class ShareContent {
     public String imageUrl;
     public String url;
 
-    private ShareContent(Builder builder) {
+    protected SKShareModel(Builder builder) {
         this.title = builder.title;
         this.content = builder.content;
         this.imageUrl = builder.imageUrl;
+        this.appName = builder.appName;
         this.url = builder.url;
     }
 
-    @Override
-    public String toString() {
-        return title + ":" + url;
-    }
-
-    public static class Builder {
+    public abstract static class Builder<S extends SKShareModel, B extends SKShareModelBuilder> implements SKShareModelBuilder<S, B> {
         String title;
         String content;
         String imageUrl;
         String url;
         String appName;
 
-        public Builder setTitle(String title) {
+        public B setTitle(String title) {
             this.title = title;
-            return this;
+            return (B) this;
         }
 
-        public Builder setAppName(String appName) {
+        public B setAppName(String appName) {
             this.appName = appName;
-            return this;
+            return (B) this;
         }
 
-        public Builder setContent(String content) {
+        public B setContent(String content) {
             this.content = content;
-            return this;
+            return (B) this;
         }
 
-        public Builder setUrl(String url) {
+        public B setUrl(String url) {
             if ("".equals(url) || url == null) {
                 url = "";
             }
             this.url = url;
-            return this;
+            return (B) this;
         }
 
-        public Builder setImageUrl(String imageUrl) {
+        public B setImageUrl(String imageUrl) {
             this.imageUrl = imageUrl;
-            return this;
+            return (B) this;
         }
 
-        public ShareContent build() {
-            return new ShareContent(this);
-        }
+        public abstract S build();
     }
+
+
 }

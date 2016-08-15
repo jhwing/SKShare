@@ -58,17 +58,31 @@ public class WeChatCompress {
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
             quality -= 5;
         }
+        if (outputStream.toByteArray().length > MAX_THUMB_IMAGE_DATA) {
+            return getImageDataByScale(outputStream);
+        }
+        return outputStream.toByteArray();
+    }
+
+    private static byte[] getImageDataByScale(ByteArrayOutputStream outStream) {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(outStream.toByteArray(), 0, outStream.toByteArray().length);
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+        int scale = Math.max(w, h);
+        int step = 0;
+        while (bitmap.getByteCount() > MAX_THUMB_IMAGE_DATA) {
+            int rate = scale - (step += 20) / scale;
+            int nw = w * rate;
+            int nh = h * rate;
+            Bitmap.createScaledBitmap(bitmap, nw, nh, true);
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         return outputStream.toByteArray();
     }
 
     public static Bitmap getImageBitmap(Context context, File file) {
         byte[] bytes = getImageData(context, file);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-        return BitmapFactory.decodeStream(inputStream, null, null);
-    }
-
-    public static Bitmap getThumbImageBitmap(Context context, File file) {
-        byte[] bytes = getThumbImageData(context, file);
         ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
         return BitmapFactory.decodeStream(inputStream, null, null);
     }

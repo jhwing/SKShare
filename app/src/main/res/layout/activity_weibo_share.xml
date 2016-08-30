@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_base_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/textShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="textShare"
+                android:text="text share" />
+
+            <Button
+                android:id="@+id/imageShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="imageShare"
+                android:text="image share" />
+
+            <Button
+                android:id="@+id/webPageShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="webPageShare"
+                android:text="web page share" />
+
+            <Button
+                android:id="@+id/musicShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="musicShare"
+                android:text="music share" />
+
+            <Button
+                android:id="@+id/videoShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="videoShare"
+                android:text="video share" />
+
+            <Button
+                android:id="@+id/voiceShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="voiceShare"
+                android:text="voice share" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -39,6 +39,17 @@ public class SKShare {
 
     }
 
+    static SKShareConfig shareConfig = new SKShareConfig();
+
+
+    public static void init(Context context) {
+        shareConfig.loadConfig(context);
+    }
+
+    public static SKShareConfig getShareConfig() {
+        return shareConfig;
+    }
+
     public static <T extends IShare> T create(Class<T> clazz, Activity activity) {
         try {
             T t = clazz.newInstance();

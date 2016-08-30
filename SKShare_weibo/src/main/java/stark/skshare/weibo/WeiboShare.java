@@ -33,7 +33,7 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
 
     private static final String TAG = WeiboShare.class.getSimpleName();
 
-    public static final String APP_ID = "3172824890";
+    public static final String APP_ID = "575596140";
 
     public static final String SCOPE =
             "email,direct_messages_read,direct_messages_write,"
@@ -86,7 +86,39 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
         Log.i(TAG, "IMAGE SIZE byte:" + imageData.length);
     }
 
+    /**
+     * 文本分享
+     * @param content
+     * @param activity
+     */
+    public void shareText(SKShareContent content, Activity activity) {
+        TextObject textObject = new TextObject();
+        textObject.text = content.content;
+        WeiboMessage weiboMessage = new WeiboMessage();
+        weiboMessage.mediaObject = textObject;
+        SendMessageToWeiboRequest request = new SendMessageToWeiboRequest();
+        request.transaction = String.valueOf(System.currentTimeMillis());
+        request.message = weiboMessage;
+        mWeiboShareAPI.sendRequest(activity, request);
+    }
+
     public void shareImage(SKShareContent content, Activity activity) {
+
+    }
+
+    public void shareWebpage(SKShareContent content, Activity activity) {
+
+    }
+
+    public void shareMusic(SKShareContent content, Activity activity) {
+
+    }
+
+    public void shareVideo(SKShareContent content, Activity activity) {
+
+    }
+
+    public void shareVoice(SKShareContent content, Activity activity) {
 
     }
 

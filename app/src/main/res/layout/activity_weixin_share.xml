@@ -7,11 +7,16 @@
 
     <include layout="@layout/view_base_toolbar" />
 
+    <ImageView
+        android:id="@+id/shareImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/bgimg" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -20,11 +25,46 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/testShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="testShare"
-                android:text="test share" />
+                android:onClick="textShare"
+                android:text="text share" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="imageShare"
+                android:text="image share" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="emojiShare"
+                android:text="emoji share" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="musicShare"
+                android:text="music share" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="webpageShare"
+                android:text="webpage share" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="videoShare"
+                android:text="video share" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="fileShare"
+                android:text="file share" />
         </LinearLayout>
 
     </ScrollView>

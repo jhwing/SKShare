@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.sina.weibo.sdk.api.BaseMediaObject;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.MusicObject;
 import com.sina.weibo.sdk.api.TextObject;
@@ -35,6 +36,8 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
 
     public static final String APP_ID = "575596140";
 
+    public static final int MAX_SIZE = 2097152;
+
     public static final String SCOPE =
             "email,direct_messages_read,direct_messages_write,"
                     + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
@@ -58,145 +61,84 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
         return 765;
     }
 
-    public void share(WeiboSKShareContent content, Activity activity, SKShare.ShareCallback callback) {
-        printImageLength(content.thumbImage);
-        int length = content.thumbImage.getByteCount();
-        Log.i(TAG, "IMAGE SIZE:" + length);
-        Bitmap cBitmap = SKShareUtil.getCompressBitmap(content.thumbImage, 2097152, false);
-        Log.i(TAG, "IMAGE SIZE:" + cBitmap.getByteCount());
-        printImageLength(cBitmap);
-
-        WeiboMessage weiboMessage = new WeiboMessage();
-        weiboMessage.mediaObject = getImageObj(cBitmap);
-        SendMessageToWeiboRequest request = new SendMessageToWeiboRequest();
-        request.transaction = String.valueOf(System.currentTimeMillis());
-        request.message = weiboMessage;
-        mWeiboShareAPI.sendRequest(activity, request);
-    }
-
-    private void printImageLength(Bitmap bitmap) {
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, byteArrayOutputStream);
-            imageData = byteArrayOutputStream.toByteArray();
-            byteArrayOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.i(TAG, "IMAGE SIZE byte:" + imageData.length);
-    }
-
     /**
      * 文本分享
+     *
      * @param content
      * @param activity
      */
-    public void shareText(SKShareContent content, Activity activity) {
+    public void shareText(WeiboSKShareContent content, Activity activity) {
         TextObject textObject = new TextObject();
         textObject.text = content.content;
+        textObject.title = content.title;
+        textObject.actionUrl = content.url;
+        textObject.identify = Utility.generateGUID();
+        send(textObject, activity);
+    }
+
+    public void shareImage(WeiboSKShareContent content, Activity activity) {
+        ImageObject imageObject = new ImageObject();
+        imageObject.thumbData = content.thumbData;
+        imageObject.title = content.title;
+        imageObject.description = content.content;
+        imageObject.imageData = content.imageData;
+        imageObject.actionUrl = content.url;
+        imageObject.identify = Utility.generateGUID();
+        send(imageObject, activity);
+    }
+
+    public void shareWebpage(WeiboSKShareContent content, Activity activity) {
+        WebpageObject webpageObject = new WebpageObject();
+        webpageObject.actionUrl = content.url;
+        webpageObject.description = content.content;
+        webpageObject.title = content.content;
+        webpageObject.thumbData = content.thumbData;
+        webpageObject.identify = Utility.generateGUID();
+        send(webpageObject, activity);
+    }
+
+    public void shareMusic(WeiboSKShareContent content, Activity activity) {
+        MusicObject musicObject = new MusicObject();
+        musicObject.thumbData = content.thumbData;
+        musicObject.title = content.title;
+        musicObject.description = content.content;
+        musicObject.actionUrl = content.url;
+        musicObject.dataUrl = content.dataUrl;
+        musicObject.identify = Utility.generateGUID();
+        send(musicObject, activity);
+    }
+
+    public void shareVideo(WeiboSKShareContent content, Activity activity) {
+        VideoObject videoObject = new VideoObject();
+        videoObject.actionUrl = content.url;
+        videoObject.duration = content.duration;
+        videoObject.description = content.content;
+        videoObject.dataUrl = content.dataUrl;
+        videoObject.title = content.title;
+        videoObject.thumbData = content.thumbData;
+        videoObject.identify = Utility.generateGUID();
+        send(videoObject, activity);
+    }
+
+    public void shareVoice(WeiboSKShareContent content, Activity activity) {
+        VoiceObject voiceObject = new VoiceObject();
+        voiceObject.defaultText = content.content;
+        voiceObject.title = content.title;
+        voiceObject.duration = content.duration;
+        voiceObject.actionUrl = content.url;
+        voiceObject.dataUrl = content.dataUrl;
+        voiceObject.thumbData = content.thumbData;
+        voiceObject.identify = Utility.generateGUID();
+        send(voiceObject, activity);
+    }
+
+    private void send(BaseMediaObject mediaObject, Activity activity) {
         WeiboMessage weiboMessage = new WeiboMessage();
-        weiboMessage.mediaObject = textObject;
+        weiboMessage.mediaObject = mediaObject;
         SendMessageToWeiboRequest request = new SendMessageToWeiboRequest();
         request.transaction = String.valueOf(System.currentTimeMillis());
         request.message = weiboMessage;
         mWeiboShareAPI.sendRequest(activity, request);
-    }
-
-    public void shareImage(SKShareContent content, Activity activity) {
-
-    }
-
-    public void shareWebpage(SKShareContent content, Activity activity) {
-
-    }
-
-    public void shareMusic(SKShareContent content, Activity activity) {
-
-    }
-
-    public void shareVideo(SKShareContent content, Activity activity) {
-
-    }
-
-    public void shareVoice(SKShareContent content, Activity activity) {
-
-    }
-
-    private TextObject getTextObj() {
-        TextObject textObject = new TextObject();
-        textObject.text = getSharedText();
-        return textObject;
-    }
-
-    private ImageObject getImageObj(Bitmap bitmap) {
-        ImageObject imageObject = new ImageObject();
-        imageObject.title = "";
-        imageObject.description = "";
-        imageObject.actionUrl = "";
-        //设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb
-        imageObject.setImageObject(bitmap);
-        imageObject.setThumbImage(bitmap);
-        return imageObject;
-    }
-
-    private WebpageObject getWebpageObj(Bitmap bitmap) {
-        WebpageObject mediaObject = new WebpageObject();
-        mediaObject.identify = Utility.generateGUID();
-        mediaObject.title = "标题";
-        mediaObject.actionUrl = "action url";
-        mediaObject.defaultText = "默认文案";
-        // 设置 Bitmap 类型的图片到视频对象里      设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-        mediaObject.setThumbImage(bitmap);
-        return mediaObject;
-    }
-
-    private MusicObject getMusicObj(Bitmap bitmap) {
-        MusicObject musicObject = new MusicObject();
-        musicObject.identify = Utility.generateGUID();
-        musicObject.title = "";
-        musicObject.description = "";
-        musicObject.actionUrl = "";
-        musicObject.dataUrl = "";
-        musicObject.dataHdUrl = "";
-        musicObject.duration = 10;
-        musicObject.defaultText = "";
-        // 设置 Bitmap 类型的图片到视频对象里      设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-        musicObject.setThumbImage(bitmap);
-        return musicObject;
-    }
-
-    private VideoObject getVideoObj(Bitmap bitmap) {
-        VideoObject videoObject = new VideoObject();
-        videoObject.identify = Utility.generateGUID();
-        videoObject.title = "";
-        videoObject.description = "";
-        videoObject.actionUrl = "";
-        videoObject.dataUrl = "";
-        videoObject.dataHdUrl = "";
-        videoObject.duration = 10;
-        videoObject.defaultText = "";
-        // 设置 Bitmap 类型的图片到视频对象里  设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-        videoObject.setThumbImage(bitmap);
-        return videoObject;
-    }
-
-    private VoiceObject getVoiceObj(Bitmap bitmap) {
-        VoiceObject voiceObject = new VoiceObject();
-        voiceObject.identify = Utility.generateGUID();
-        voiceObject.title = "";
-        voiceObject.description = "";
-        voiceObject.actionUrl = "";
-        voiceObject.dataUrl = "";
-        voiceObject.dataHdUrl = "";
-        voiceObject.duration = 10;
-        voiceObject.defaultText = "";
-        // 设置 Bitmap 类型的图片到视频对象里      设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-        voiceObject.setThumbImage(bitmap);
-        return voiceObject;
-    }
-
-    private String getSharedText() {
-        return "新浪分享测试";
     }
 
     @Override

@@ -7,10 +7,17 @@
 
     <include layout="@layout/view_base_toolbar" />
 
-    <ScrollView
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:scaleType="fitXY"
+        android:src="@drawable/bgimg" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout

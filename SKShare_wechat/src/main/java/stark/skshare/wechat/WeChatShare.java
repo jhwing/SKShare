@@ -2,6 +2,7 @@ package stark.skshare.wechat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -10,6 +11,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXEmojiObject;
 import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
+import com.tencent.mm.sdk.openapi.WXMusicObject;
 import com.tencent.mm.sdk.openapi.WXTextObject;
 import com.tencent.mm.sdk.openapi.WXWebpageObject;
 
@@ -24,7 +26,7 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
 
     private static final String TAG = WeChatShare.class.getSimpleName();
 
-    public static final String APP_ID = "wx15049dc26bd17949";
+    public static final String APP_ID = "wxd6e53b1e821b0ec5";
 
     IWXAPI wxApi;
 
@@ -56,6 +58,7 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
         textObject.text = "微信分享测试";
         WXMediaMessage mediaMessage = new WXMediaMessage(textObject);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
+        mediaMessage.title = "微信分享测试";
         req.transaction = buildTransaction("text");
         req.message = mediaMessage;
         req.scene = isToFriend ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
@@ -64,18 +67,31 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
 
     /**
      * 分享图片
+     *
      * @param context
      * @param content
      * @param isToFriend
      */
     public void shareImage(Context context, WeChatSKShareContent content, boolean isToFriend) {
         // 原图压缩
-        WXImageObject imageObject = new WXImageObject(WeChatCompress.getImageBitmap(context, content.thumb));
+
+        Bitmap bitmap = null;
+        if (content.thumb != null) {
+            bitmap = WeChatCompress.getImageBitmap(context, content.thumb);
+        } else if (content.thumbImage != null) {
+            bitmap = WeChatCompress.getImageBitmap(content.thumbImage);
+        }
+        WXImageObject imageObject = new WXImageObject(bitmap);
         WXMediaMessage mediaMessage = new WXMediaMessage(imageObject);
         mediaMessage.title = content.title;
         mediaMessage.description = content.content;
-        // 缩略图压缩
-        mediaMessage.thumbData = WeChatCompress.getThumbImageData(context, content.thumb);
+
+        if (content.thumb != null) {
+            // 缩略图压缩
+            mediaMessage.thumbData = WeChatCompress.getThumbImageData(context, content.thumb);
+        } else if (content.thumbImage != null) {
+            mediaMessage.thumbData = WeChatCompress.getThumbImageData(content.thumbImage);
+        }
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = buildTransaction("img");
@@ -86,16 +102,26 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
 
     /**
      * 分享表情
+     *
      * @param context
      * @param content
      * @param isToFriend
      */
     public void shareEmoji(Context context, WeChatSKShareContent content, boolean isToFriend) {
-        WXEmojiObject emojiObject = new WXEmojiObject(WeChatCompress.getImageData(context, content.thumb));
+        WXEmojiObject emojiObject = new WXEmojiObject();
+        if (content.thumb != null) {
+            emojiObject.emojiData = WeChatCompress.getImageData(context, content.thumb);
+        } else if (content.thumbImage != null) {
+            emojiObject.emojiData = WeChatCompress.getImageData(content.thumbImage);
+        }
         WXMediaMessage mediaMessage = new WXMediaMessage(emojiObject);
         mediaMessage.title = content.title;
         mediaMessage.description = content.content;
-        mediaMessage.thumbData = WeChatCompress.getThumbImageData(context, content.thumb);
+        if (content.thumb != null) {
+            mediaMessage.thumbData = WeChatCompress.getThumbImageData(context, content.thumb);
+        } else if (content.thumbImage != null) {
+            mediaMessage.thumbData = WeChatCompress.getThumbImageData(content.thumbImage);
+        }
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = buildTransaction("emoji");
         req.message = mediaMessage;
@@ -103,8 +129,14 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
         wxApi.sendReq(req);
     }
 
+    public void shareMusic(Context context, WeChatSKShareContent content, boolean isToFriend) {
+        WXMusicObject musicObject = new WXMusicObject();
+        musicObject.musicUrl = content.url;
+    }
+
     /**
      * 分享链接
+     *
      * @param context
      * @param content
      * @param isToFriend

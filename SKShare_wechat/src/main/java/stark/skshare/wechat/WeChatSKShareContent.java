@@ -16,10 +16,13 @@ public class WeChatSKShareContent extends SKShareModel {
 
     public File thumb;
 
+    public String musicUrl;
+
     protected WeChatSKShareContent(Builder builder) {
         super(builder);
         this.thumbImage = builder.thumbImage;
         this.thumb = builder.thumb;
+        this.musicUrl = builder.musicUrl;
     }
 
     public static final class Builder extends SKShareModel.Builder<WeChatSKShareContent, Builder> {
@@ -28,6 +31,8 @@ public class WeChatSKShareContent extends SKShareModel {
 
         File thumb;
 
+        String musicUrl;
+
         public Builder setThumbImage(Bitmap thumbImage) {
             this.thumbImage = thumbImage;
             return this;
@@ -35,6 +40,11 @@ public class WeChatSKShareContent extends SKShareModel {
 
         public Builder setThumb(File thumb) {
             this.thumb = thumb;
+            return this;
+        }
+
+        public Builder setMusicUrl(String musicUrl) {
+            this.musicUrl = musicUrl;
             return this;
         }
 

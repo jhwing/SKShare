@@ -1,4 +1,4 @@
-package stark.skshare.wechat;
+package stark.skshare;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,10 +13,10 @@ import stark.skshare.utlis.ImageUtil;
 
 /**
  * Created by jihongwen on 16/8/4.
- * 微信压缩
+ * 图片压缩
  */
 
-public class WeChatCompress {
+public class ImageCompress {
 
     private static final int THUMB_SIZE = 500;
 
@@ -102,6 +102,12 @@ public class WeChatCompress {
 
     public static Bitmap getImageBitmap(Bitmap bitmap) {
         byte[] bytes = getImageData(bitmap);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+        return BitmapFactory.decodeStream(inputStream, null, null);
+    }
+
+    public static Bitmap getThumbImageBitmap(Bitmap bitmap) {
+        byte[] bytes = getThumbImageData(bitmap);
         ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
         return BitmapFactory.decodeStream(inputStream, null, null);
     }

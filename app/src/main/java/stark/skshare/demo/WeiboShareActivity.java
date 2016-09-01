@@ -1,12 +1,17 @@
 package stark.skshare.demo;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 
+import stark.skshare.ImageCompress;
 import stark.skshare.SKShare;
-import stark.skshare.SKShareContent;
+import stark.skshare.utlis.SKShareUtil;
+import stark.skshare.weibo.WeiboSKShareContent;
 import stark.skshare.weibo.WeiboShare;
 
 /**
@@ -15,10 +20,17 @@ import stark.skshare.weibo.WeiboShare;
 
 public class WeiboShareActivity extends BaseToolbarActivity {
 
+    ImageView imageView;
+
+    Bitmap bitmap;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weibo_share);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+        bitmap = bitmapDrawable.getBitmap();
     }
 
     @Override
@@ -29,7 +41,7 @@ public class WeiboShareActivity extends BaseToolbarActivity {
 
     public void textShare(View view) {
         WeiboShare share = SKShare.create(WeiboShare.class, this);
-        share.shareText(new SKShareContent.Builder()
+        share.shareText(new WeiboSKShareContent.Builder()
                 .setContent("新浪分享测试")
                 .setTitle("新浪分享测试 title")
                 .build(), this);
@@ -41,8 +53,10 @@ public class WeiboShareActivity extends BaseToolbarActivity {
      */
     public void imageShare(View view) {
         WeiboShare share = SKShare.create(WeiboShare.class, this);
-        share.shareImage(new SKShareContent.Builder()
+        share.shareImage(new WeiboSKShareContent.Builder()
                 .setContent("新浪分享测试")
+                .setImageData(ImageCompress.getImageData(bitmap))
+                .setThumbData(ImageCompress.getThumbImageData(bitmap))
                 .setTitle("新浪分享测试 title")
                 .build(), this);
     }
@@ -52,7 +66,7 @@ public class WeiboShareActivity extends BaseToolbarActivity {
      */
     public void webPageShare(View view) {
         WeiboShare share = SKShare.create(WeiboShare.class, this);
-        share.shareWebpage(new SKShareContent.Builder()
+        share.shareWebpage(new WeiboSKShareContent.Builder()
                 .setContent("新浪分享测试")
                 .setTitle("新浪分享测试 title")
                 .build(), this);
@@ -63,7 +77,7 @@ public class WeiboShareActivity extends BaseToolbarActivity {
      */
     public void musicShare(View view) {
         WeiboShare share = SKShare.create(WeiboShare.class, this);
-        share.shareMusic(new SKShareContent.Builder()
+        share.shareMusic(new WeiboSKShareContent.Builder()
                 .setContent("新浪分享测试")
                 .setTitle("新浪分享测试 title")
                 .build(), this);
@@ -74,7 +88,7 @@ public class WeiboShareActivity extends BaseToolbarActivity {
      */
     public void videoShare(View view) {
         WeiboShare share = SKShare.create(WeiboShare.class, this);
-        share.shareVideo(new SKShareContent.Builder()
+        share.shareVideo(new WeiboSKShareContent.Builder()
                 .setContent("新浪分享测试")
                 .setTitle("新浪分享测试 title")
                 .build(), this);
@@ -85,7 +99,7 @@ public class WeiboShareActivity extends BaseToolbarActivity {
      */
     public void voiceShare(View view) {
         WeiboShare share = SKShare.create(WeiboShare.class, this);
-        share.shareVoice(new SKShareContent.Builder()
+        share.shareVoice(new WeiboSKShareContent.Builder()
                 .setContent("新浪分享测试")
                 .setTitle("新浪分享测试 title")
                 .build(), this);

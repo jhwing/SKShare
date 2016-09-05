@@ -21,11 +21,6 @@ public class ImageCompress {
     public static byte[] getImageData(Bitmap bitmap, int maxLength) {
         // TODO: 16/9/5 等比缩放
         Bitmap scaledBitmap = ImageUtil.getScaledBitmap(bitmap, 720, 960);
-        return getImageDataByQuality(scaledBitmap, maxLength);
-    }
-
-    public static byte[] getThumbImageData(Bitmap bitmap, int maxLength, int thumbWidth, int thumbHeight) {
-        Bitmap scaledBitmap = ImageUtil.getScaledBitmap(bitmap, thumbWidth, thumbHeight);
         return getScaledImageBytes(scaledBitmap, maxLength);
     }
 
@@ -36,7 +31,12 @@ public class ImageCompress {
         BitmapFactory.decodeFile(filePath, options);
         Bitmap bitmap = ImageUtil.getScaledBitmap(context, Uri.fromFile(file), options.outWidth, options.outHeight);
 
-        return getImageDataByQuality(bitmap, maxLength);
+        return getScaledImageBytes(bitmap, maxLength);
+    }
+
+    public static byte[] getThumbImageData(Bitmap bitmap, int maxLength, int thumbWidth, int thumbHeight) {
+        Bitmap scaledBitmap = ImageUtil.getScaledBitmap(bitmap, thumbWidth, thumbHeight);
+        return getScaledImageBytes(scaledBitmap, maxLength);
     }
 
     public static byte[] getThumbImageData(Context context, File file, int maxLength, int thumbWidth, int thumbHeight) {
@@ -46,6 +46,7 @@ public class ImageCompress {
 
     /**
      * 对缩放过的图片进行质量压缩,并检验是否符合要求,如果不符合在进行最后的尺寸压缩
+     *
      * @param bitmap
      * @param maxLength
      * @return
@@ -69,28 +70,8 @@ public class ImageCompress {
     }
 
     /**
-     * 质量压缩
-     * @param bitmap
-     * @param maxLength
-     * @return
-     */
-    private static byte[] getImageDataByQuality(Bitmap bitmap, int maxLength) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        int quality = 80;
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-        while (outputStream.toByteArray().length > maxLength) {
-            if (quality < 20) {
-                break;
-            }
-            outputStream.reset();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            quality -= 10;
-        }
-        return outputStream.toByteArray();
-    }
-
-    /**
      * 缩放压缩
+     *
      * @param outStream
      * @param maxLength
      * @return

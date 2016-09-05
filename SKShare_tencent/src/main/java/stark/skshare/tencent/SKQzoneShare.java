@@ -16,7 +16,7 @@ import stark.skshare.SKShareContent;
 
 public class SKQzoneShare extends SKTencentShare {
 
-    public void shareImageToQzone(SKShareContent content, Activity activity, final SKShare.ShareCallback callback) {
+    public void shareImageToQzone(Activity activity, SKShareContent content, final SKShare.ShareCallback callback) {
         mActivity = activity;
         this.callback = callback;
         Bundle bundle = new Bundle();

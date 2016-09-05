@@ -2,6 +2,8 @@ package stark.skshare.weibo;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
+
 import stark.skshare.SKShareModel;
 
 /**
@@ -10,11 +12,13 @@ import stark.skshare.SKShareModel;
 
 public class WeiboSKShareContent extends SKShareModel {
 
-    public Bitmap thumbImage;
-
     public byte[] thumbData;
 
     public byte[] imageData;
+
+    public Bitmap imageBitmap;
+
+    public File imageFile;
 
     public String dataUrl;
 
@@ -22,27 +26,30 @@ public class WeiboSKShareContent extends SKShareModel {
 
     private WeiboSKShareContent(Builder builder) {
         super(builder);
-        this.thumbImage = builder.thumbImage;
         this.thumbData = builder.thumbData;
         this.imageData = builder.imageData;
+        this.imageFile = builder.imageFile;
+        this.imageBitmap = builder.imageBitmap;
         this.dataUrl = builder.dataUrl;
         this.duration = builder.duration;
     }
 
     public static class Builder extends SKShareModel.Builder<WeiboSKShareContent, Builder> {
 
-        private Bitmap thumbImage;
+        byte[] thumbData;
 
-        public byte[] thumbData;
+        byte[] imageData;
 
-        public byte[] imageData;
+        Bitmap imageBitmap;
 
-        public String dataUrl;
+        File imageFile;
 
-        public int duration;
+        String dataUrl;
 
-        public Builder setThumbImage(Bitmap thumbImage) {
-            this.thumbImage = thumbImage;
+        int duration;
+
+        public Builder setImageBitmap(Bitmap imageBitmap) {
+            this.imageBitmap = imageBitmap;
             return this;
         }
 
@@ -53,6 +60,11 @@ public class WeiboSKShareContent extends SKShareModel {
 
         public Builder setImageData(byte[] imageData) {
             this.imageData = imageData;
+            return this;
+        }
+
+        public Builder setImageFile(File imageFile) {
+            this.imageFile = imageFile;
             return this;
         }
 

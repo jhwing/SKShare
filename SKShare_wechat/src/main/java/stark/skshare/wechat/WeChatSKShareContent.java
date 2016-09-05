@@ -12,34 +12,54 @@ import stark.skshare.SKShareModel;
 
 public class WeChatSKShareContent extends SKShareModel {
 
-    public Bitmap thumbImage;
+    public byte[] thumbData;
 
-    public File thumb;
+    public byte[] imageData;
+
+    public Bitmap imageBitmap;
+
+    public File imageFile;
 
     public String musicUrl;
 
     protected WeChatSKShareContent(Builder builder) {
         super(builder);
-        this.thumbImage = builder.thumbImage;
-        this.thumb = builder.thumb;
+        this.thumbData = builder.thumbData;
+        this.imageData = builder.imageData;
+        this.imageFile = builder.imageFile;
+        this.imageBitmap = builder.imageBitmap;
         this.musicUrl = builder.musicUrl;
     }
 
     public static final class Builder extends SKShareModel.Builder<WeChatSKShareContent, Builder> {
 
-        Bitmap thumbImage;
+        byte[] thumbData;
 
-        File thumb;
+        byte[] imageData;
+
+        Bitmap imageBitmap;
+
+        File imageFile;
 
         String musicUrl;
 
-        public Builder setThumbImage(Bitmap thumbImage) {
-            this.thumbImage = thumbImage;
+        public Builder setThumbData(byte[] thumbData) {
+            this.thumbData = thumbData;
             return this;
         }
 
-        public Builder setThumb(File thumb) {
-            this.thumb = thumb;
+        public Builder setImageData(byte[] imageData) {
+            this.imageData = imageData;
+            return this;
+        }
+
+        public Builder setImageBitmap(Bitmap imageBitmap) {
+            this.imageBitmap = imageBitmap;
+            return this;
+        }
+
+        public Builder setImageFile(File imageFile) {
+            this.imageFile = imageFile;
             return this;
         }
 

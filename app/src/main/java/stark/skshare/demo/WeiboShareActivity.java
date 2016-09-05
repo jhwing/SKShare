@@ -55,8 +55,7 @@ public class WeiboShareActivity extends BaseToolbarActivity {
         WeiboShare share = SKShare.create(WeiboShare.class, this);
         share.shareImage(new WeiboSKShareContent.Builder()
                 .setContent("新浪分享测试")
-                .setImageData(ImageCompress.getImageData(bitmap))
-                .setThumbData(ImageCompress.getThumbImageData(bitmap))
+                .setImageBitmap(bitmap)
                 .setTitle("新浪分享测试 title")
                 .build(), this);
     }
@@ -69,6 +68,8 @@ public class WeiboShareActivity extends BaseToolbarActivity {
         share.shareWebpage(new WeiboSKShareContent.Builder()
                 .setContent("新浪分享测试")
                 .setTitle("新浪分享测试 title")
+                .setUrl("http://m.budejie.com")
+                .setImageBitmap(bitmap)
                 .build(), this);
     }
 

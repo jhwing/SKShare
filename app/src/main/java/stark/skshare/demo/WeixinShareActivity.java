@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import stark.skshare.SKShare;
 import stark.skshare.wechat.WeChatSKShareContent;
 import stark.skshare.wechat.WeChatShare;
-import stark.skshare.weibo.WeiboShare;
 
 /**
  * Created by jihongwen on 16/8/25.
@@ -39,7 +38,7 @@ public class WeixinShareActivity extends BaseToolbarActivity {
     }
 
     public void textShare(View view) {
-        share.shareText(new WeChatSKShareContent.Builder()
+        share.shareText(this, new WeChatSKShareContent.Builder()
                 .setContent("微信分享测试")
                 .build(), true);
 
@@ -48,7 +47,7 @@ public class WeixinShareActivity extends BaseToolbarActivity {
     public void imageShare(View view) {
         share.shareImage(this, new WeChatSKShareContent.Builder()
                 .setContent("微信图片分享测试")
-                .setThumbImage(bitmap)
+                .setImageBitmap(bitmap)
                 .build(), true);
 
     }
@@ -56,7 +55,7 @@ public class WeixinShareActivity extends BaseToolbarActivity {
     public void emojiShare(View view) {
         share.shareEmoji(this, new WeChatSKShareContent.Builder()
                 .setContent("微信表情分享测试")
-                .setThumbImage(bitmap)
+                .setImageBitmap(bitmap)
                 .build(), true);
     }
 

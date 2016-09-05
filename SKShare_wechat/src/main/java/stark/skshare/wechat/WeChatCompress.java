@@ -18,97 +18,10 @@ import stark.skshare.utlis.ImageUtil;
 
 public class WeChatCompress {
 
-    private static final int THUMB_SIZE = 500;
+    static final int THUMB_SIZE = 500;
 
-    private static final int MAX_IMAGE_DATA = 1024 * 1024 * 10;
-    private static final int MAX_THUMB_IMAGE_DATA = 1024 * 32;
+    static final int MAX_IMAGE_DATA_LENGTH = 1024 * 1024 * 10;
 
+    static final int MAX_THUMB_IMAGE_DATA_LENGTH = 1024 * 32;
 
-    public static byte[] getImageData(Bitmap bitmap) {
-        Bitmap scaledBitmap = ImageUtil.getScaledBitmap(bitmap, 720, 960);
-        return getImageDataByQuality(scaledBitmap);
-    }
-
-    public static byte[] getThumbImageData(Bitmap bitmap) {
-        Bitmap scaledBitmap = ImageUtil.getScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE);
-        return getScaledImageBytes(scaledBitmap);
-    }
-
-    public static byte[] getImageData(Context context, File file) {
-        String filePath = file.getAbsolutePath();
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(filePath, options);
-        Bitmap bitmap = ImageUtil.getScaledBitmap(context, Uri.fromFile(file), options.outWidth, options.outHeight);
-
-        return getImageDataByQuality(bitmap);
-    }
-
-    private static byte[] getImageDataByQuality(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        int quality = 80;
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-        while (outputStream.toByteArray().length > MAX_IMAGE_DATA) {
-            if (quality < 20) {
-                break;
-            }
-            outputStream.reset();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            quality -= 10;
-        }
-        return outputStream.toByteArray();
-    }
-
-    public static byte[] getThumbImageData(Context context, File file) {
-        Bitmap bitmap = ImageUtil.getScaledBitmap(context, Uri.fromFile(file), THUMB_SIZE, THUMB_SIZE);
-
-        return getScaledImageBytes(bitmap);
-    }
-
-    private static byte[] getScaledImageBytes(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        int quality = 80;
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-        while (outputStream.toByteArray().length > MAX_THUMB_IMAGE_DATA) {
-            if (quality < 20) {
-                break;
-            }
-            outputStream.reset();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            quality -= 5;
-        }
-        if (outputStream.toByteArray().length > MAX_THUMB_IMAGE_DATA) {
-            return getImageDataByScale(outputStream);
-        }
-        return outputStream.toByteArray();
-    }
-
-    private static byte[] getImageDataByScale(ByteArrayOutputStream outStream) {
-        Bitmap bitmap = BitmapFactory.decodeByteArray(outStream.toByteArray(), 0, outStream.toByteArray().length);
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
-        int scale = Math.max(w, h);
-        int step = 0;
-        while (bitmap.getByteCount() > MAX_THUMB_IMAGE_DATA) {
-            int rate = scale - (step += 20) / scale;
-            int nw = w * rate;
-            int nh = h * rate;
-            Bitmap.createScaledBitmap(bitmap, nw, nh, true);
-        }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        return outputStream.toByteArray();
-    }
-
-    public static Bitmap getImageBitmap(Bitmap bitmap) {
-        byte[] bytes = getImageData(bitmap);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-        return BitmapFactory.decodeStream(inputStream, null, null);
-    }
-
-    public static Bitmap getImageBitmap(Context context, File file) {
-        byte[] bytes = getImageData(context, file);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-        return BitmapFactory.decodeStream(inputStream, null, null);
-    }
 }

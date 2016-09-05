@@ -22,6 +22,7 @@ import com.sina.weibo.sdk.utils.Utility;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import stark.skshare.ImageCompress;
 import stark.skshare.SKShare;
 import stark.skshare.SKShareConfig;
 import stark.skshare.SKShareContent;
@@ -36,6 +37,7 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
     private static final String TAG = WeiboShare.class.getSimpleName();
 
     public static final String APP_ID_KEY = "weibo_app_key";
+
     public static String APP_ID = "575596140";
 
     public static final int MAX_SIZE = 2097152;
@@ -48,8 +50,6 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
     public static final String REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";
 
     IWeiboShareAPI mWeiboShareAPI;
-
-    byte[] imageData;
 
     @Override
     public WeiboShare init(Context context, SKShareConfig shareConfig) {
@@ -79,58 +79,63 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
         send(textObject, activity);
     }
 
-    public void shareImage(WeiboSKShareContent content, Activity activity) {
+    public void shareImage(WeiboSKShareContent shareContent, Activity activity) {
+        // 微博分享图片可以不分享缩略图
         ImageObject imageObject = new ImageObject();
-        imageObject.thumbData = content.thumbData;
-        imageObject.title = content.title;
-        imageObject.description = content.content;
-        imageObject.imageData = content.imageData;
-        imageObject.actionUrl = content.url;
+        //imageObject.thumbData = content.thumbData;
+        imageObject.title = shareContent.title;
+        imageObject.description = shareContent.content;
+        imageObject.imageData = getCompressImageData(shareContent, activity);
+        imageObject.actionUrl = shareContent.url;
         imageObject.identify = Utility.generateGUID();
         send(imageObject, activity);
     }
 
-    public void shareWebpage(WeiboSKShareContent content, Activity activity) {
+    public void shareWebpage(WeiboSKShareContent shareContent, Activity activity) {
         WebpageObject webpageObject = new WebpageObject();
-        webpageObject.actionUrl = content.url;
-        webpageObject.description = content.content;
-        webpageObject.title = content.content;
-        webpageObject.thumbData = content.thumbData;
+        webpageObject.actionUrl = shareContent.url;
+        webpageObject.description = shareContent.content;
+        webpageObject.title = shareContent.content;
+        webpageObject.thumbData = getCompressThumbImageData(shareContent, activity);
         webpageObject.identify = Utility.generateGUID();
         send(webpageObject, activity);
     }
 
-    public void shareMusic(WeiboSKShareContent content, Activity activity) {
+    public void shareMusic(WeiboSKShareContent shareContent, Activity activity) {
         MusicObject musicObject = new MusicObject();
-        musicObject.thumbData = content.thumbData;
-        musicObject.title = content.title;
-        musicObject.description = content.content;
-        musicObject.actionUrl = content.url;
-        musicObject.dataUrl = content.dataUrl;
+        musicObject.actionUrl = shareContent.url;
+        musicObject.defaultText = shareContent.title;
+        musicObject.title = shareContent.title;
+        musicObject.description = shareContent.content;
+        musicObject.duration = shareContent.duration;
+        musicObject.dataUrl = shareContent.dataUrl;
+        musicObject.thumbData = getCompressThumbImageData(shareContent, activity);
         musicObject.identify = Utility.generateGUID();
         send(musicObject, activity);
     }
 
-    public void shareVideo(WeiboSKShareContent content, Activity activity) {
+    public void shareVideo(WeiboSKShareContent shareContent, Activity activity) {
         VideoObject videoObject = new VideoObject();
-        videoObject.actionUrl = content.url;
-        videoObject.duration = content.duration;
-        videoObject.description = content.content;
-        videoObject.dataUrl = content.dataUrl;
-        videoObject.title = content.title;
-        videoObject.thumbData = content.thumbData;
+        videoObject.actionUrl = shareContent.url;
+        videoObject.defaultText = shareContent.title;
+        videoObject.title = shareContent.title;
+        videoObject.description = shareContent.content;
+        videoObject.duration = shareContent.duration;
+        videoObject.dataUrl = shareContent.dataUrl;
+        videoObject.thumbData = getCompressThumbImageData(shareContent, activity);
         videoObject.identify = Utility.generateGUID();
         send(videoObject, activity);
     }
 
-    public void shareVoice(WeiboSKShareContent content, Activity activity) {
+    public void shareVoice(WeiboSKShareContent shareContent, Activity activity) {
         VoiceObject voiceObject = new VoiceObject();
-        voiceObject.defaultText = content.content;
-        voiceObject.title = content.title;
-        voiceObject.duration = content.duration;
-        voiceObject.actionUrl = content.url;
-        voiceObject.dataUrl = content.dataUrl;
-        voiceObject.thumbData = content.thumbData;
+        voiceObject.actionUrl = shareContent.url;
+        voiceObject.defaultText = shareContent.title;
+        voiceObject.title = shareContent.title;
+        voiceObject.description = shareContent.content;
+        voiceObject.duration = shareContent.duration;
+        voiceObject.dataUrl = shareContent.dataUrl;
+        voiceObject.thumbData = getCompressThumbImageData(shareContent, activity);
         voiceObject.identify = Utility.generateGUID();
         send(voiceObject, activity);
     }
@@ -142,6 +147,36 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
         request.transaction = String.valueOf(System.currentTimeMillis());
         request.message = weiboMessage;
         mWeiboShareAPI.sendRequest(activity, request);
+    }
+
+    private byte[] getCompressThumbImageData(WeiboSKShareContent shareContent, Context context) {
+        if (shareContent.imageData != null) {
+            return shareContent.imageData;
+        }
+
+        if (shareContent.imageFile != null) {
+            return ImageCompress.getThumbImageData(context, shareContent.imageFile, WeiboCompress.MAX_THUMB_IMAGE_DATA_LENGTH, WeiboCompress.THUMB_SIZE, WeiboCompress.THUMB_SIZE);
+        }
+
+        if (shareContent.imageBitmap != null) {
+            return ImageCompress.getThumbImageData(shareContent.imageBitmap, WeiboCompress.MAX_THUMB_IMAGE_DATA_LENGTH, WeiboCompress.THUMB_SIZE, WeiboCompress.THUMB_SIZE);
+        }
+        return null;
+    }
+
+    private byte[] getCompressImageData(WeiboSKShareContent shareContent, Context context) {
+        if (shareContent.imageData != null) {
+            return shareContent.imageData;
+        }
+
+        if (shareContent.imageFile != null) {
+            return ImageCompress.getImageData(context, shareContent.imageFile, WeiboCompress.MAX_IMAGE_DATA_LENGTH);
+        }
+
+        if (shareContent.imageBitmap != null) {
+            return ImageCompress.getImageData(shareContent.imageBitmap, WeiboCompress.MAX_IMAGE_DATA_LENGTH);
+        }
+        return null;
     }
 
     @Override

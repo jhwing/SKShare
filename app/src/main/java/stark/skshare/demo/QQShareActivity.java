@@ -5,8 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.tencent.connect.share.QQShare;
-
+import stark.skshare.DefaultShareCallback;
 import stark.skshare.SKShare;
 import stark.skshare.SKShareContent;
 import stark.skshare.tencent.SKQQShare;
@@ -30,28 +29,20 @@ public class QQShareActivity extends BaseToolbarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void testShare(View view) {
+    public void textShare(View view) {
+    }
+
+    public void imageShare(View view) {
         SKQQShare share = SKShare.create(SKQQShare.class, this);
-        share.shareToQQ(
-                new SKShareContent.Builder()
-                        .setContent("qq测试分享")
-                        .build(),
-                this,
-                new SKShare.ShareCallback() {
-                    @Override
-                    public void onSuccess() {
+        share.shareImageToQQ(this, new SKShareContent.Builder()
+                .setUrl("http://m.budejie.com")
+                .setImageUrl("http://m.budejie.com")
+                .setTitle("qq测试分享title")
+                .setContent("qq测试分享content")
+                .build(), new DefaultShareCallback());
+    }
 
-                    }
+    public void webPageShare(View view) {
 
-                    @Override
-                    public void onCancel() {
-
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
     }
 }

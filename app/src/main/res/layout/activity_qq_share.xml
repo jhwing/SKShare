@@ -7,6 +7,13 @@
 
     <include layout="@layout/view_base_toolbar" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/bgimg" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,11 +26,27 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/testShare"
+                android:id="@+id/textShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="testShare"
-                android:text="test share" />
+                android:onClick="textShare"
+                android:text="text share" />
+
+            <Button
+                android:id="@+id/imageShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="imageShare"
+                android:text="image share" />
+
+            <Button
+                android:id="@+id/webPageShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="webPageShare"
+                android:text="web page share" />
+
+            
         </LinearLayout>
 
     </ScrollView>

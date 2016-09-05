@@ -18,9 +18,8 @@ import stark.skshare.utlis.ImageUtil;
 
 public class ImageCompress {
 
-    private static final int THUMB_SIZE = 500;
-
     public static byte[] getImageData(Bitmap bitmap, int maxLength) {
+        // TODO: 16/9/5 等比缩放
         Bitmap scaledBitmap = ImageUtil.getScaledBitmap(bitmap, 720, 960);
         return getImageDataByQuality(scaledBitmap, maxLength);
     }
@@ -40,26 +39,17 @@ public class ImageCompress {
         return getImageDataByQuality(bitmap, maxLength);
     }
 
-    private static byte[] getImageDataByQuality(Bitmap bitmap, int maxLength) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        int quality = 80;
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-        while (outputStream.toByteArray().length > maxLength) {
-            if (quality < 20) {
-                break;
-            }
-            outputStream.reset();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            quality -= 10;
-        }
-        return outputStream.toByteArray();
-    }
-
     public static byte[] getThumbImageData(Context context, File file, int maxLength, int thumbWidth, int thumbHeight) {
         Bitmap bitmap = ImageUtil.getScaledBitmap(context, Uri.fromFile(file), thumbWidth, thumbHeight);
         return getScaledImageBytes(bitmap, maxLength);
     }
 
+    /**
+     * 对缩放过的图片进行质量压缩,并检验是否符合要求,如果不符合在进行最后的尺寸压缩
+     * @param bitmap
+     * @param maxLength
+     * @return
+     */
     private static byte[] getScaledImageBytes(Bitmap bitmap, int maxLength) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         int quality = 80;
@@ -78,6 +68,33 @@ public class ImageCompress {
         return outputStream.toByteArray();
     }
 
+    /**
+     * 质量压缩
+     * @param bitmap
+     * @param maxLength
+     * @return
+     */
+    private static byte[] getImageDataByQuality(Bitmap bitmap, int maxLength) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        int quality = 80;
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+        while (outputStream.toByteArray().length > maxLength) {
+            if (quality < 20) {
+                break;
+            }
+            outputStream.reset();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            quality -= 10;
+        }
+        return outputStream.toByteArray();
+    }
+
+    /**
+     * 缩放压缩
+     * @param outStream
+     * @param maxLength
+     * @return
+     */
     private static byte[] getImageDataByScale(ByteArrayOutputStream outStream, int maxLength) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(outStream.toByteArray(), 0, outStream.toByteArray().length);
         int w = bitmap.getWidth();
@@ -93,23 +110,5 @@ public class ImageCompress {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         return outputStream.toByteArray();
-    }
-
-    public static Bitmap getImageBitmap(Bitmap bitmap, int maxLength) {
-        byte[] bytes = getImageData(bitmap, maxLength);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-        return BitmapFactory.decodeStream(inputStream, null, null);
-    }
-
-    public static Bitmap getThumbImageBitmap(Bitmap bitmap, int maxLength, int thumbWidth, int thumbHeight) {
-        byte[] bytes = getThumbImageData(bitmap, maxLength, thumbWidth, thumbHeight);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-        return BitmapFactory.decodeStream(inputStream, null, null);
-    }
-
-    public static Bitmap getImageBitmap(Context context, File file, int maxLength) {
-        byte[] bytes = getImageData(context, file, maxLength);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-        return BitmapFactory.decodeStream(inputStream, null, null);
     }
 }

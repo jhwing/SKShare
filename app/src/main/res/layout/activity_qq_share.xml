@@ -12,12 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/bgimg" />
+        android:src="@mipmap/share_img" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -29,24 +28,29 @@
                 android:id="@+id/textShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="textShare"
-                android:text="text share" />
+                android:text="text share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:id="@+id/imageShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="imageShare"
-                android:text="image share" />
+                android:text="image share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:id="@+id/webPageShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="webPageShare"
-                android:text="web page share" />
+                android:text="web page share"
+                android:textSize="@dimen/button_text_size" />
 
-            
         </LinearLayout>
 
     </ScrollView>

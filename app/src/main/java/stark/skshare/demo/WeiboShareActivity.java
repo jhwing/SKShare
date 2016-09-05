@@ -8,9 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
-import stark.skshare.ImageCompress;
 import stark.skshare.SKShare;
-import stark.skshare.utlis.SKShareUtil;
 import stark.skshare.weibo.WeiboSKShareContent;
 import stark.skshare.weibo.WeiboShare;
 

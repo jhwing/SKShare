@@ -5,6 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/share_img"
     tools:context="stark.skshare.demo.MainActivity">
 
     <include layout="@layout/view_base_toolbar" />
@@ -12,7 +13,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -32,25 +32,28 @@
                     android:id="@+id/wxShareTest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:gravity="center"
                     android:text="WEIXIN share"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/button_text_size" />
 
                 <Button
                     android:id="@+id/weiboShareTest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:gravity="center"
                     android:text="WEIBO share"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/button_text_size" />
 
                 <Button
                     android:id="@+id/qqShareTest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:gravity="center"
                     android:text="QQ share"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/button_text_size" />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

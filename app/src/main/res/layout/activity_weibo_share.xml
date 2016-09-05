@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/bgimg" />
+        android:src="@mipmap/share_img" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -29,43 +29,55 @@
                 android:id="@+id/textShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="textShare"
-                android:text="text share" />
+                android:text="text share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:id="@+id/imageShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="imageShare"
-                android:text="image share" />
+                android:text="image share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:id="@+id/webPageShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="webPageShare"
-                android:text="web page share" />
+                android:text="web page share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:id="@+id/musicShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="musicShare"
-                android:text="music share" />
+                android:text="music share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:id="@+id/videoShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="videoShare"
-                android:text="video share" />
+                android:text="video share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:id="@+id/voiceShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="voiceShare"
-                android:text="voice share" />
+                android:text="voice share"
+                android:textSize="@dimen/button_text_size" />
 
         </LinearLayout>
 

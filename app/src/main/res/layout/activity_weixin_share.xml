@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/bgimg" />
+        android:src="@mipmap/share_img" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,44 +27,58 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="textShare"
-                android:text="text share" />
+                android:text="text share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="imageShare"
-                android:text="image share" />
+                android:text="image share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="emojiShare"
-                android:text="emoji share" />
+                android:text="emoji share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="musicShare"
-                android:text="music share" />
+                android:text="music share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="webpageShare"
-                android:text="webpage share" />
+                android:text="webpage share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="videoShare"
-                android:text="video share" />
+                android:text="video share"
+                android:textSize="@dimen/button_text_size" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="fileShare"
-                android:text="file share" />
+                android:text="file share"
+                android:textSize="@dimen/button_text_size" />
         </LinearLayout>
 
     </ScrollView>

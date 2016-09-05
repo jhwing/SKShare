@@ -5,16 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import stark.skshare.DefaultShareCallback;
-import stark.skshare.Platform;
 import stark.skshare.SKShare;
-import stark.skshare.SKShareContent;
-import stark.skshare.tencent.SKQQShare;
-import stark.skshare.tencent.SKQzoneShare;
-import stark.skshare.wechat.WeChatSKShareContent;
-import stark.skshare.wechat.WeChatShare;
-import stark.skshare.weibo.WeiboSKShareContent;
-import stark.skshare.weibo.WeiboShare;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ShareLayout.IShareView {
 

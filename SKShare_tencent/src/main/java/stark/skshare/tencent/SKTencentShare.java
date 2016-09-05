@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import stark.skshare.Platform;
 import stark.skshare.SKShare;
+import stark.skshare.SKShareConfig;
 import stark.skshare.SKShareContent;
 
 
@@ -25,7 +26,9 @@ import stark.skshare.SKShareContent;
 
 public class SKTencentShare implements SKShare.IShare<SKTencentShare> {
 
-    public static final String APP_ID = "1105530560";
+    public static final String APP_ID_KEY = "qq_app_key";
+    
+    public static String APP_ID = "1105530560";
 
     private Tencent mTencent;
 
@@ -36,7 +39,8 @@ public class SKTencentShare implements SKShare.IShare<SKTencentShare> {
     private Activity mActivity;
 
     @Override
-    public SKTencentShare init(Context context) {
+    public SKTencentShare init(Context context, SKShareConfig shareConfig) {
+        APP_ID = shareConfig.getProperty(APP_ID_KEY);
         iUiListener = new BaseUiListener();
         mTencent = Tencent.createInstance(APP_ID, context.getApplicationContext());
         return this;

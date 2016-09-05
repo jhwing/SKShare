@@ -17,6 +17,7 @@ import com.tencent.mm.sdk.openapi.WXWebpageObject;
 
 import stark.skshare.Platform;
 import stark.skshare.SKShare;
+import stark.skshare.SKShareConfig;
 
 /**
  * Created by jihongwen on 16/8/4.
@@ -26,7 +27,9 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
 
     private static final String TAG = WeChatShare.class.getSimpleName();
 
-    public static final String APP_ID = "wxd6e53b1e821b0ec5";
+    public static final String APP_ID_KEY = "wx_app_key";
+    
+    public static String APP_ID = "wxd6e53b1e821b0ec5";
 
     IWXAPI wxApi;
 
@@ -36,7 +39,8 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
     }
 
     @Override
-    public WeChatShare init(Context context) {
+    public WeChatShare init(Context context, SKShareConfig shareConfig) {
+        APP_ID = shareConfig.getProperty(APP_ID_KEY);
         wxApi = WXAPIFactory.createWXAPI(context, APP_ID);
         wxApi.registerApp(APP_ID);
         return this;

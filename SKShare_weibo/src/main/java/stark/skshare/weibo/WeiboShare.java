@@ -23,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import stark.skshare.SKShare;
+import stark.skshare.SKShareConfig;
 import stark.skshare.SKShareContent;
 import stark.skshare.utlis.SKShareUtil;
 
@@ -34,7 +35,8 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
 
     private static final String TAG = WeiboShare.class.getSimpleName();
 
-    public static final String APP_ID = "575596140";
+    public static final String APP_ID_KEY = "weibo_app_key";
+    public static String APP_ID = "575596140";
 
     public static final int MAX_SIZE = 2097152;
 
@@ -50,7 +52,8 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
     byte[] imageData;
 
     @Override
-    public WeiboShare init(Context context) {
+    public WeiboShare init(Context context, SKShareConfig shareConfig) {
+        APP_ID = shareConfig.getProperty(APP_ID_KEY);
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(context, APP_ID);
         mWeiboShareAPI.registerApp();
         return this;

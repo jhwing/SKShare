@@ -24,7 +24,7 @@ public class SKShare {
     }
 
     public interface IShare<T> extends ResultListener {
-        T init(Context context);
+        T init(Context context, SKShareConfig shareConfig);
 
         int requestCode();
     }
@@ -53,7 +53,7 @@ public class SKShare {
     public static <T extends IShare> T create(Class<T> clazz, Activity activity) {
         try {
             T t = clazz.newInstance();
-            t.init(activity);
+            t.init(activity, shareConfig);
             resultListeners.put(t.requestCode(), t);
             return t;
         } catch (InstantiationException e) {

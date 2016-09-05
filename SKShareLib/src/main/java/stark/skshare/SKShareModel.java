@@ -11,6 +11,7 @@ public abstract class SKShareModel {
     public String appName;
     public String imageUrl;
     public String url;
+    public byte[] thumbData;
 
     protected SKShareModel(Builder builder) {
         this.title = builder.title;
@@ -26,6 +27,7 @@ public abstract class SKShareModel {
         String imageUrl;
         String url;
         String appName;
+        byte[] thumbData;
 
         public B setTitle(String title) {
             this.title = title;
@@ -52,6 +54,11 @@ public abstract class SKShareModel {
 
         public B setImageUrl(String imageUrl) {
             this.imageUrl = imageUrl;
+            return (B) this;
+        }
+
+        public B setThumbData(byte[] thumbData) {
+            this.thumbData = thumbData;
             return (B) this;
         }
 

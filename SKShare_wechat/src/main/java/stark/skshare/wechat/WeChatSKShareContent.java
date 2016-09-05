@@ -12,9 +12,11 @@ import stark.skshare.SKShareModel;
 
 public class WeChatSKShareContent extends SKShareModel {
 
-    public byte[] thumbData;
-
     public byte[] imageData;
+
+    public byte[] fileData;
+
+    public String filePath;
 
     public Bitmap imageBitmap;
 
@@ -26,6 +28,7 @@ public class WeChatSKShareContent extends SKShareModel {
         super(builder);
         this.thumbData = builder.thumbData;
         this.imageData = builder.imageData;
+        this.fileData = builder.fileData;
         this.imageFile = builder.imageFile;
         this.imageBitmap = builder.imageBitmap;
         this.musicUrl = builder.musicUrl;
@@ -36,6 +39,10 @@ public class WeChatSKShareContent extends SKShareModel {
         byte[] thumbData;
 
         byte[] imageData;
+
+        byte[] fileData;
+
+        String filePath;
 
         Bitmap imageBitmap;
 
@@ -50,6 +57,16 @@ public class WeChatSKShareContent extends SKShareModel {
 
         public Builder setImageData(byte[] imageData) {
             this.imageData = imageData;
+            return this;
+        }
+
+        public Builder setFileData(byte[] fileData) {
+            this.fileData = fileData;
+            return this;
+        }
+
+        public Builder setFilePath(String filePath) {
+            this.filePath = filePath;
             return this;
         }
 

@@ -7,6 +7,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXEmojiObject;
+import com.tencent.mm.sdk.openapi.WXFileObject;
 import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 import com.tencent.mm.sdk.openapi.WXMusicObject;
@@ -83,7 +84,7 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
      */
     public void shareMusic(Context context, WeChatSKShareContent content, boolean isToFriend) {
         WXMusicObject musicObject = new WXMusicObject();
-        musicObject.musicUrl = content.url;
+        musicObject.musicUrl = content.musicUrl;
         send(context, content, isToFriend, musicObject);
     }
 
@@ -94,6 +95,16 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
         WXWebpageObject webPage = new WXWebpageObject();
         webPage.webpageUrl = shareContent.url;
         send(context, shareContent, isToFriend, webPage);
+    }
+
+    /**
+     * 文件分享
+     */
+    public void shareFile(Context context, WeChatSKShareContent shareContent, boolean isToFriend) {
+        WXFileObject fileObject = new WXFileObject();
+        fileObject.fileData = shareContent.fileData;
+        fileObject.filePath = shareContent.filePath;
+        send(context, shareContent, isToFriend, fileObject);
     }
 
     private void send(Context context, WeChatSKShareContent shareContent, boolean isToFriend, WXMediaMessage.IMediaObject mediaObject) {

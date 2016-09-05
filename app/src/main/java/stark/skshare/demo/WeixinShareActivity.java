@@ -61,12 +61,15 @@ public class WeixinShareActivity extends BaseToolbarActivity {
 
     public void musicShare(View view) {
         share.shareMusic(this, new WeChatSKShareContent.Builder()
-                .setMusicUrl("")
-                .build(), false);
+                .setMusicUrl("http://music.163.com/#/song?id=28768109")
+                .build(), true);
     }
 
     public void webpageShare(View view) {
-        share.shareWebPage(this, new WeChatSKShareContent.Builder().build(), false);
+        share.shareWebPage(this, new WeChatSKShareContent.Builder()
+                .setImageBitmap(bitmap)
+                .setUrl("http://www.baidu.com")
+                .build(), false);
     }
 
     public void videoShare(View view) {

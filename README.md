@@ -2,7 +2,7 @@
 社会化分享sdk，支持微信分享，微博分享，qq分享
 
 # 效果图
-![主界面](https://github.com/jhwing/SKShare/blob/master/Screenshots/Screenshot_20160906-084047.png) ![微信分享](https://github.com/jhwing/SKShare/blob/master/Screenshots/Screenshot_20160906-084056.png) ![微博分享](https://github.com/jhwing/SKShare/blob/master/Screenshots/Screenshot_20160906-084102.png) ![qq分享](https://github.com/jhwing/SKShare/blob/master/Screenshots/Screenshot_20160906-084107.png)
+![主界面](https://github.com/jhwing/SKShare/blob/master/Screenshots/Screenshot_20160906-084047.png) ![微信分享](https://github.com/jhwing/SKShare/blob/master/Screenshots/Screenshot_20160906-084056.png) ![分享对话](https://github.com/jhwing/SKShare/blob/master/Screenshots/Screenshot_20160906-090647.png) 
 
 # 使用方式
 1 配置文件

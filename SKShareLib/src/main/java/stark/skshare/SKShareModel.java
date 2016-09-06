@@ -62,6 +62,15 @@ public abstract class SKShareModel {
             return (B) this;
         }
 
+        public S build(SKShareModel s) {
+            this.url = s.url;
+            this.title = s.title;
+            this.content = s.content;
+            this.imageUrl = s.imageUrl;
+            this.appName = s.appName;
+            return build();
+        }
+
         public abstract S build();
     }
 

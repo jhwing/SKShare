@@ -95,7 +95,7 @@ public class WeiboShare implements SKShare.IShare<WeiboShare> {
         WebpageObject webpageObject = new WebpageObject();
         webpageObject.actionUrl = shareContent.url;
         webpageObject.description = shareContent.content;
-        webpageObject.title = shareContent.content;
+        webpageObject.title = shareContent.title;
         webpageObject.thumbData = getCompressThumbImageData(shareContent, activity);
         webpageObject.identify = Utility.generateGUID();
         send(webpageObject, activity);

@@ -13,7 +13,9 @@ public class SKShareConfig extends Properties {
 
     public void loadConfig(Context context) {
         try {
-            load(context.getAssets().open("share.properties"));
+            // 不需要上下文的加载方式
+            load(SKShareConfig.class.getResourceAsStream("/assets/share.properties"));
+            //load(context.getAssets().open("share.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }

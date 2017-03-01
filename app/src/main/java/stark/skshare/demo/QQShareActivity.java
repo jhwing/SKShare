@@ -9,6 +9,7 @@ import stark.skshare.DefaultShareCallback;
 import stark.skshare.SKShare;
 import stark.skshare.SKShareContent;
 import stark.skshare.tencent.SKQQShare;
+import stark.skshare.tencent.SKTencentContent;
 
 /**
  * Created by jihongwen on 16/8/25.
@@ -34,7 +35,7 @@ public class QQShareActivity extends BaseToolbarActivity {
 
     public void imageShare(View view) {
         SKQQShare share = SKShare.create(SKQQShare.class, this);
-        share.shareImageToQQ(this, new SKShareContent.Builder()
+        share.shareImageToQQ(this, new SKTencentContent.Builder()
                 .setUrl("http://m.budejie.com")
                 .setImageUrl("http://m.budejie.com")
                 .setTitle("qq测试分享title")

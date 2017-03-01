@@ -12,16 +12,17 @@ import stark.skshare.SKShareModel;
 
 public class WeiboSKShareContent extends SKShareModel {
 
+    // 缩略图byte数据
     public byte[] thumbData;
-
+    // 原图byte数据
     public byte[] imageData;
-
+    // 原图Bitmap数据
     public Bitmap imageBitmap;
-
+    // 原图File
     public File imageFile;
-
+    //
     public String dataUrl;
-
+    // 时长
     public int duration;
 
     private WeiboSKShareContent(Builder builder) {

@@ -40,7 +40,7 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
 
     @Override
     public WeChatShare init(Context context, SKShareConfig shareConfig) {
-        APP_ID = shareConfig.getProperty(APP_ID_KEY);
+        APP_ID = shareConfig.getProperty(APP_ID_KEY) == null ? APP_ID : shareConfig.getProperty(APP_ID_KEY);
         wxApi = WXAPIFactory.createWXAPI(context, APP_ID);
         wxApi.registerApp(APP_ID);
         return this;
@@ -57,7 +57,7 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
     public void shareText(Context context, WeChatSKShareContent shareContent, boolean isToFriend) {
         WXTextObject textObject = new WXTextObject();
         textObject.text = "微信分享测试";
-        send(context, shareContent, isToFriend, textObject);
+        send(context, shareContent, isToFriend, textObject, "text");
     }
 
     /**
@@ -66,7 +66,7 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
     public void shareImage(Context context, WeChatSKShareContent shareContent, boolean isToFriend) {
         WXImageObject imageObject = new WXImageObject();
         imageObject.imageData = getCompressImageData(shareContent, context);
-        send(context, shareContent, isToFriend, imageObject);
+        send(context, shareContent, isToFriend, imageObject, "img");
     }
 
 
@@ -75,8 +75,9 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
      */
     public void shareEmoji(Context context, WeChatSKShareContent shareContent, boolean isToFriend) {
         WXEmojiObject emojiObject = new WXEmojiObject();
-        emojiObject.emojiData = getCompressImageData(shareContent, context);
-        send(context, shareContent, isToFriend, emojiObject);
+        emojiObject.emojiPath = shareContent.filePath;
+        //emojiObject.emojiData = getCompressImageData(shareContent, context);
+        send(context, shareContent, isToFriend, emojiObject, "emoji");
     }
 
     /**
@@ -85,7 +86,7 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
     public void shareMusic(Context context, WeChatSKShareContent content, boolean isToFriend) {
         WXMusicObject musicObject = new WXMusicObject();
         musicObject.musicUrl = content.musicUrl;
-        send(context, content, isToFriend, musicObject);
+        send(context, content, isToFriend, musicObject, "music");
     }
 
     /**
@@ -94,7 +95,7 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
     public void shareWebPage(Context context, WeChatSKShareContent shareContent, boolean isToFriend) {
         WXWebpageObject webPage = new WXWebpageObject();
         webPage.webpageUrl = shareContent.url;
-        send(context, shareContent, isToFriend, webPage);
+        send(context, shareContent, isToFriend, webPage, "webpage");
     }
 
     /**
@@ -104,32 +105,35 @@ public class WeChatShare implements SKShare.IShare<WeChatShare> {
         WXFileObject fileObject = new WXFileObject();
         fileObject.fileData = shareContent.fileData;
         fileObject.filePath = shareContent.filePath;
-        send(context, shareContent, isToFriend, fileObject);
+        send(context, shareContent, isToFriend, fileObject, "file");
     }
 
-    private void send(Context context, WeChatSKShareContent shareContent, boolean isToFriend, WXMediaMessage.IMediaObject mediaObject) {
+    private void send(Context context, WeChatSKShareContent shareContent, boolean isToFriend, WXMediaMessage.IMediaObject mediaObject, String type) {
         WXMediaMessage mediaMessage = new WXMediaMessage(mediaObject);
         mediaMessage.title = shareContent.title;
         mediaMessage.description = shareContent.content;
         mediaMessage.thumbData = getCompressThumbImageData(shareContent, context);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = buildTransaction("img");
+        req.transaction = buildTransaction(type);
         req.message = mediaMessage;
         req.scene = isToFriend ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         wxApi.sendReq(req);
     }
 
+    /*
+     * 获取缩略图二进制数据
+     */
     private byte[] getCompressThumbImageData(WeChatSKShareContent shareContent, Context context) {
         if (shareContent.thumbData != null) {
             return shareContent.thumbData;
         }
 
-        if (shareContent.imageFile != null) {
-            return ImageCompress.getThumbImageData(context, shareContent.imageFile, WeChatCompress.MAX_IMAGE_DATA_LENGTH, WeChatCompress.THUMB_SIZE, WeChatCompress.THUMB_SIZE);
+        if (shareContent.thumbFile != null) {
+            return ImageCompress.getThumbImageData(context, shareContent.thumbFile, WeChatCompress.MAX_THUMB_IMAGE_DATA_LENGTH, WeChatCompress.THUMB_SIZE, WeChatCompress.THUMB_SIZE);
         }
 
         if (shareContent.imageBitmap != null) {
-            return ImageCompress.getThumbImageData(shareContent.imageBitmap, WeChatCompress.MAX_IMAGE_DATA_LENGTH, WeChatCompress.THUMB_SIZE, WeChatCompress.THUMB_SIZE);
+            return ImageCompress.getThumbImageData(shareContent.imageBitmap, WeChatCompress.MAX_THUMB_IMAGE_DATA_LENGTH, WeChatCompress.THUMB_SIZE, WeChatCompress.THUMB_SIZE);
         }
         return null;
     }

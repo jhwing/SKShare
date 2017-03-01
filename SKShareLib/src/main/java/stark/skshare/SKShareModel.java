@@ -6,17 +6,17 @@ package stark.skshare;
 
 public abstract class SKShareModel {
 
+    /**
+     * 公共分享字段
+     */
     public String title;
     public String content;
     public String appName;
-    public String imageUrl;
     public String url;
-    public byte[] thumbData;
 
     protected SKShareModel(Builder builder) {
         this.title = builder.title;
         this.content = builder.content;
-        this.imageUrl = builder.imageUrl;
         this.appName = builder.appName;
         this.url = builder.url;
     }
@@ -24,10 +24,8 @@ public abstract class SKShareModel {
     public abstract static class Builder<S extends SKShareModel, B extends SKShareModelBuilder> implements SKShareModelBuilder<S, B> {
         String title;
         String content;
-        String imageUrl;
         String url;
         String appName;
-        byte[] thumbData;
 
         public B setTitle(String title) {
             this.title = title;
@@ -52,27 +50,14 @@ public abstract class SKShareModel {
             return (B) this;
         }
 
-        public B setImageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
-            return (B) this;
-        }
-
-        public B setThumbData(byte[] thumbData) {
-            this.thumbData = thumbData;
-            return (B) this;
-        }
-
         public S build(SKShareModel s) {
             this.url = s.url;
             this.title = s.title;
             this.content = s.content;
-            this.imageUrl = s.imageUrl;
             this.appName = s.appName;
             return build();
         }
 
         public abstract S build();
     }
-
-
 }

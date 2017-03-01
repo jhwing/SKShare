@@ -40,7 +40,7 @@ public class SKTencentShare implements SKShare.IShare<SKTencentShare> {
 
     @Override
     public SKTencentShare init(Context context, SKShareConfig shareConfig) {
-        APP_ID = shareConfig.getProperty(APP_ID_KEY);
+        APP_ID = shareConfig.getProperty(APP_ID_KEY) == null ? APP_ID : shareConfig.getProperty(APP_ID_KEY);
         iUiListener = new BaseUiListener();
         mTencent = Tencent.createInstance(APP_ID, context.getApplicationContext());
         return this;

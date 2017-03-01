@@ -2,6 +2,7 @@ package stark.skshare.tencent;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.tencent.connect.share.QzoneShare;
 
@@ -16,7 +17,7 @@ import stark.skshare.SKShareContent;
 
 public class SKQzoneShare extends SKTencentShare {
 
-    public void shareImageToQzone(Activity activity, SKShareContent content, final SKShare.ShareCallback callback) {
+    public void shareImageToQzone(Activity activity, SKTencentContent content, final SKShare.ShareCallback callback) {
         mActivity = activity;
         this.callback = callback;
         Bundle bundle = new Bundle();
@@ -24,14 +25,14 @@ public class SKQzoneShare extends SKTencentShare {
         bundle.putString(QzoneShare.SHARE_TO_QQ_TITLE, content.title);
         bundle.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, content.content);
         bundle.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, content.url);
-        bundle.putString(QzoneShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, content.imageUrl);
+        //bundle.putString(QzoneShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, content.imageUrl);
         ArrayList<String> imageUrls = new ArrayList<>();
         imageUrls.add(content.imageUrl);
         bundle.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
         mTencent.shareToQzone(activity, bundle, iUiListener);
     }
 
-    public void shareAppToQzone(Activity activity, SKShareContent content, final SKShare.ShareCallback callback) {
+    public void shareAppToQzone(Activity activity, SKTencentContent content, final SKShare.ShareCallback callback) {
         mActivity = activity;
         this.callback = callback;
         Bundle bundle = new Bundle();
@@ -39,11 +40,13 @@ public class SKQzoneShare extends SKTencentShare {
         bundle.putString(QzoneShare.SHARE_TO_QQ_TITLE, content.title);
         bundle.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, content.content);
         bundle.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, content.url);
-        bundle.putString(QzoneShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, content.imageUrl);
+        if (!TextUtils.isEmpty(content.url)) {
+            bundle.putString(QzoneShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, content.imageUrl);
+            ArrayList<String> imageUrls = new ArrayList<>();
+            imageUrls.add(content.imageUrl);
+            bundle.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
+        }
         bundle.putString(QzoneShare.SHARE_TO_QQ_APP_NAME, content.appName);
-        ArrayList<String> imageUrls = new ArrayList<>();
-        imageUrls.add(content.imageUrl);
-        bundle.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
         mTencent.shareToQzone(activity, bundle, iUiListener);
     }
 
